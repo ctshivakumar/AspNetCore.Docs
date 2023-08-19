@@ -91,6 +91,8 @@ The preceding commands add:
 * The [command-line interface (CLI) tools for EF Core](/ef/core/miscellaneous/cli/dotnet)
 * The [aspnet-codegenerator scaffolding tool](xref:fundamentals/tools/dotnet-aspnet-codegenerator).
 
+[!INCLUDE[](~/includes/dotnet-tool-install-arch-options.md)]
+
 ---
 
 Build the project as a check for compiler errors.
@@ -111,7 +113,7 @@ In the **Add New Scaffolded Item** dialog:
 * Select  **MVC Controller with views, using Entity Framework**.
 * Select **Add**.
 
-![Add Scaffold dialog](~/tutorials/first-mvc-app/adding-model/_static/add_new_scaffoldVS22v17.6.png)
+![Add Scaffold dialog](~/tutorials/first-mvc-app/adding-model/_static/add_scaffold5.png)
 
 Complete the **Add MVC Controller with views, using Entity Framework** dialog:
 

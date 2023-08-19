@@ -22,19 +22,19 @@ Although the argument passed to `SectionName` can use any type of casing, the do
 
 In the following example, the app's main layout component implements an increment counter button for the app's `Counter` component.
 
-Add the namespace for sections to the `_Imports.razor` file:
+If the namespace for sections isn't in the `_Imports.razor` file, add it:
 
 ```razor
 @using Microsoft.AspNetCore.Components.Sections
 ```
 
-In the `MainLayout` component (`Shared/MainLayout.razor`), place a `SectionOutlet` component and pass a string to the `SectionName` parameter to indicate the section's name. The following example uses the section name `top-bar`:
+In the `MainLayout` component (`MainLayout.razor`), place a `SectionOutlet` component and pass a string to the `SectionName` parameter to indicate the section's name. The following example uses the section name `top-bar`:
 
 ```razor
 <SectionOutlet SectionName="top-bar" />
 ```
 
-In the `Counter` component (`Pages/Counter.razor`), create a `SectionContent` component and pass the matching string (`top-bar`) to its `SectionName` parameter:
+In the `Counter` component (`Counter.razor`), create a `SectionContent` component and pass the matching string (`top-bar`) to its `SectionName` parameter:
 
 ```razor
 <SectionContent SectionName="top-bar">
@@ -66,7 +66,7 @@ In the `MainLayout` component's Razor markup, place a `SectionOutlet` component 
 
 Add a `SectionContent` component to the app's `Counter` component that renders an increment count button. Use the `MainLayout` component's `TopbarSection` section static `object` as the `SectionId` (`MainLayout.TopbarSection`).
 
-In `Pages/Counter.razor`:
+In `Counter.razor`:
 
 ```razor
 <SectionContent SectionId="MainLayout.TopbarSection">
@@ -78,3 +78,11 @@ When the `Counter` component is accessed, the `MainLayout` component renders the
 
 > [!NOTE]
 > `SectionOutlet` and `SectionContent` components can only set either `SectionId` or `SectionName`, not both.
+
+## Section interaction with other Blazor features
+
+A section interacts with other Blazor features in the following ways:
+
+* [Cascading values](xref:blazor/components/cascading-values-and-parameters) flow into section content from where the content is defined by the `SectionContent` component.
+* Unhandled exceptions are handled by [error boundaries](xref:blazor/fundamentals/handle-errors#error-boundaries) defined around a `SectionContent` component.
+* A Razor component configured for [streaming rendering](xref:blazor/components/rendering#streaming-rendering) also configures section content provided by a `SectionContent` component to use streaming rendering.

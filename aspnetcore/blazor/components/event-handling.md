@@ -16,7 +16,7 @@ This article explains Blazor's event handling features, including event argument
 
 Specify delegate event handlers in Razor component markup with [`@on{DOM EVENT}="{DELEGATE}"`](xref:mvc/views/razor#onevent) Razor syntax:
 
-* The `{DOM EVENT}` placeholder is a [Document Object Model (DOM) event](https://developer.mozilla.org/docs/Web/Events) (for example, `click`).
+* The `{DOM EVENT}` placeholder is a [DOM event](https://developer.mozilla.org/docs/Web/Events) (for example, `click`).
 * The `{DELEGATE}` placeholder is the C# delegate event handler.
 
 For event handling:
@@ -30,7 +30,7 @@ The following code:
 * Calls the `UpdateHeading` method when the button is selected in the UI.
 * Calls the `CheckChanged` method when the checkbox is changed in the UI.
 
-`Pages/EventHandlerExample1.razor`:
+`EventHandlerExample1.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -61,7 +61,7 @@ In the following example, `UpdateHeading`:
 * Is called asynchronously when the button is selected.
 * Waits two seconds before updating the heading.
 
-`Pages/EventHandlerExample2.razor`:
+`EventHandlerExample2.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -91,7 +91,7 @@ In the following example, `UpdateHeading`:
 
 For events that support an event argument type, specifying an event parameter in the event method definition is only necessary if the event type is used in the method. In the following example, <xref:Microsoft.AspNetCore.Components.Web.MouseEventArgs> is used in the `ReportPointerLocation` method to set message text that reports the mouse coordinates when the user selects a button in the UI.
 
-`Pages/EventHandlerExample3.razor`:
+`EventHandlerExample3.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -119,7 +119,7 @@ For events that support an event argument type, specifying an event parameter in
 
 Supported <xref:System.EventArgs> are shown in the following table.
 
-| Event            | Class  | [Document Object Model (DOM)](https://developer.mozilla.org/docs/Web/API/Document_Object_Model/Introduction) notes |
+| Event            | Class  | DOM notes |
 | ---------------- | ------ | --- |
 | Clipboard        | <xref:Microsoft.AspNetCore.Components.Web.ClipboardEventArgs> | |
 | Drag             | <xref:Microsoft.AspNetCore.Components.Web.DragEventArgs> | <xref:Microsoft.AspNetCore.Components.Web.DataTransfer> and <xref:Microsoft.AspNetCore.Components.Web.DataTransferItem> hold dragged item data.<br><br>Implement drag and drop in Blazor apps using [JS interop](xref:blazor/js-interop/call-javascript-from-dotnet) with [HTML Drag and Drop API](https://developer.mozilla.org/docs/Web/API/HTML_Drag_and_Drop_API). |
@@ -300,7 +300,7 @@ Event name conventions differ between .NET and JavaScript:
 
 In a Razor component, attach the custom handler to an element.
 
-`Pages/CustomPasteArguments.razor`:
+`CustomPasteArguments.razor`:
 
 ```razor
 @page "/custom-paste-arguments"
@@ -332,7 +332,7 @@ In a Razor component, attach the custom handler to an element.
 
 [Lambda expressions](/dotnet/csharp/programming-guide/statements-expressions-operators/lambda-expressions) are supported as the delegate event handler.
 
-`Pages/EventHandlerExample4.razor`:
+`EventHandlerExample4.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -363,7 +363,7 @@ It's often convenient to close over additional values using C# method parameters
 * An event argument (<xref:Microsoft.AspNetCore.Components.Web.MouseEventArgs>) in `e`.
 * The button number in `buttonNumber`.
 
-`Pages/EventHandlerExample5.razor`:
+`EventHandlerExample5.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -415,7 +415,7 @@ A common scenario with nested components executes a parent component's method wh
 
 The following `Child` component demonstrates how a button's `onclick` handler is set up to receive an <xref:Microsoft.AspNetCore.Components.EventCallback> delegate from the sample's `ParentComponent`. The <xref:Microsoft.AspNetCore.Components.EventCallback> is typed with `MouseEventArgs`, which is appropriate for an `onclick` event from a peripheral device.
 
-`Shared/Child.razor`:
+`Child.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -443,7 +443,7 @@ The following `Child` component demonstrates how a button's `onclick` handler is
 
 The `Parent` component sets the child's <xref:Microsoft.AspNetCore.Components.EventCallback%601> (`OnClickCallback`) to its `ShowMessage` method.
 
-`Pages/Parent.razor`:
+`Parent.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -493,11 +493,11 @@ Prefer the strongly typed <xref:Microsoft.AspNetCore.Components.EventCallback%60
 
 ## Prevent default actions
 
-Use the [`@on{DOM EVENT}:preventDefault`](xref:mvc/views/razor#oneventpreventdefault) directive attribute to prevent the default action for an event, where the `{DOM EVENT}` placeholder is a [Document Object Model (DOM) event](https://developer.mozilla.org/docs/Web/Events).
+Use the [`@on{DOM EVENT}:preventDefault`](xref:mvc/views/razor#oneventpreventdefault) directive attribute to prevent the default action for an event, where the `{DOM EVENT}` placeholder is a [DOM event](https://developer.mozilla.org/docs/Web/Events).
 
 When a key is selected on an input device and the element focus is on a text box, a browser normally displays the key's character in the text box. In the following example, the default behavior is prevented by specifying the `@onkeydown:preventDefault` directive attribute. When the focus is on the `<input>` element, the counter increments with the key sequence <kbd>Shift</kbd>+<kbd>+</kbd>. The `+` character isn't assigned to the `<input>` element's value. For more information on `keydown`, see [`MDN Web Docs: Document: keydown` event](https://developer.mozilla.org/docs/Web/API/Document/keydown_event).
 
-`Pages/EventHandlerExample6.razor`:
+`EventHandlerExample6.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -539,7 +539,7 @@ An expression is also a permitted value of the attribute. In the following examp
 
 ## Stop event propagation
 
-Use the [`@on{DOM EVENT}:stopPropagation`](xref:mvc/views/razor#oneventstoppropagation) directive attribute to stop event propagation within the Blazor scope. `{DOM EVENT}` is a placeholder for a [Document Object Model (DOM) event](https://developer.mozilla.org/docs/Web/Events).
+Use the [`@on{DOM EVENT}:stopPropagation`](xref:mvc/views/razor#oneventstoppropagation) directive attribute to stop event propagation within the Blazor scope. `{DOM EVENT}` is a placeholder for a [DOM event](https://developer.mozilla.org/docs/Web/Events).
 
 The `stopPropagation` directive attribute's effect is limited to the Blazor scope and doesn't extend to the HTML DOM. Events must propagate to the HTML DOM root before Blazor can act upon them. For a mechanism to prevent HTML DOM event propagation, consider the following approach:
 
@@ -548,7 +548,7 @@ The `stopPropagation` directive attribute's effect is limited to the Blazor scop
 
 In the following example, selecting the checkbox prevents click events from the second child `<div>` from propagating to the parent `<div>`. Since propagated click events normally fire the `OnSelectParentDiv` method, selecting the second child `<div>` results in the parent `<div>` message appearing unless the checkbox is selected.
 
-`Pages/EventHandlerExample7.razor`:
+`EventHandlerExample7.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -580,7 +580,7 @@ In the following example, selecting the checkbox prevents click events from the 
 
 Call <xref:Microsoft.AspNetCore.Components.ElementReferenceExtensions.FocusAsync%2A> on an [element reference](xref:blazor/js-interop/call-javascript-from-dotnet#capture-references-to-elements) to focus an element in code. In the following example, select the button to focus the `<input>` element.
 
-`Pages/EventHandlerExample8.razor`:
+`EventHandlerExample8.razor`:
 
 :::moniker-end
 

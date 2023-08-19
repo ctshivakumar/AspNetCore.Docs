@@ -26,9 +26,9 @@ Blazor documentation adopts several conventions for showing and discussing compo
 
 * Project code, file paths and names, project template names, and other specialized terms are in United States English and usually code-fenced.
 * Components are usually referred to by their C# class name (Pascal case) followed by the word "component." For example, a typical file upload component is referred to as the "`FileUpload` component."
-* Usually, a component's C# class name is the same as its file name. Component paths within an app are usually indicated. For example, `Pages/FileUpload.razor`.
+* Usually, a component's C# class name is the same as its file name.
 * Routable components usually set their relative URLs to the component's class name in kebab-case. For example, a `FileUpload` component includes routing configuration to reach the rendered component at the relative URL `/file-upload`. Routing and navigation is covered in <xref:blazor/fundamentals/routing>.
-* When multiple versions of a component are used, they're numbered sequentially. For example, the `FileUpload3` component has a file name and location of `Pages/FileUpload3.razor` and is reached at `/file-upload-3`.
+* When multiple versions of a component are used, they're numbered sequentially. For example, the `FileUpload3` component is reached at `/file-upload-3`.
 * Access modifiers are used in article examples. For example, fields are `private` by default but are explicitly present in component code. For example, `private` is stated for declaring a field named `maxAllowedFiles` as `private int maxAllowedFiles = 3;`.
 * Generally, examples adhere to ASP.NET Core/C# coding conventions and engineering guidelines. For more information see the following resources:
   * [Engineering guidelines (`dotnet/aspnetcore` GitHub repository)](https://github.com/dotnet/aspnetcore/wiki/Engineering-guidelines)
@@ -36,28 +36,33 @@ Blazor documentation adopts several conventions for showing and discussing compo
 
 The following is an example counter component and part of an app created from a Blazor project template. Detailed components coverage is found in the *Components* articles later in the documentation. The following example demonstrates component concepts seen in the *Fundamentals* articles before reaching the *Components* articles later in the documentation.
 
-`Pages/Counter.razor`:
+`Counter.razor`:
 
-```razor
-@page "/counter"
+<!-- UPDATE 8.0 Probably switch over to the BWA example when the BWA snippet sample goes up -->
 
-<PageTitle>Counter</PageTitle>
+:::moniker range=">= aspnetcore-7.0"
 
-<h1>Counter</h1>
+:::code language="razor" source="~/../blazor-samples/7.0/BlazorSample_WebAssembly/Pages/Counter.razor":::
 
-<p role="status">Current count: @currentCount</p>
+:::moniker-end
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+:::moniker range=">= aspnetcore-6.0 < aspnetcore-7.0"
 
-@code {
-    private int currentCount = 0;
+:::code language="razor" source="~/../blazor-samples/6.0/BlazorSample_WebAssembly/Pages/Counter.razor":::
 
-    private void IncrementCount()
-    {
-        currentCount++;
-    }
-}
-```
+:::moniker-end
+
+:::moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
+
+:::code language="razor" source="~/../blazor-samples/5.0/BlazorSample_WebAssembly/Pages/Counter.razor":::
+
+:::moniker-end
+
+:::moniker range="< aspnetcore-5.0"
+
+:::code language="razor" source="~/../blazor-samples/3.1/BlazorSample_WebAssembly/Pages/Counter.razor":::
+
+:::moniker-end
 
 The preceding `Counter` component:
 
@@ -65,6 +70,15 @@ The preceding `Counter` component:
 * Sets its page title and heading.
 * Renders the current count with `@currentCount`. `currentCount` is an integer variable defined in the C# code of the `@code` block.
 * Displays a button to trigger the `IncrementCount` method, which is also found in the `@code` block and increases the value of the `currentCount` variable.
+
+## Document Object Model (DOM)
+
+References to the *Document Object Model* use the abbreviation *DOM*.
+
+For more information, see the following resources:
+
+* [Introduction to the DOM (MDN documentation)](https://developer.mozilla.org/docs/Web/API/Document_Object_Model/Introduction)
+* [Level 1 Document Object Model Specification (W3C)](https://www.w3.org/TR/WD-DOM/)
 
 ## Sample apps
 
@@ -74,14 +88,25 @@ Documentation sample apps are available for inspection and download:
 
 The repo contains two types of samples:
 
-* Snippet sample apps for Blazor Server and Blazor WebAssembly provide the code examples that appear in Blazor articles. These apps don't compile and aren't runnable apps. They're provided solely for the purpose of obtaining article example code.
+:::moniker range=">= aspnetcore-8.0"
+
+* Snippet sample apps provide the code examples that appear in articles. These apps compile but aren't necessarily runnable apps. These apps are useful for merely obtaining example code that appears in articles.
+* Samples apps to accompany Blazor articles compile and run for the following scenarios:
+  * Blazor Web App with with EF Core
+  * Blazor Web App with SignalR
+  * Blazor WebAssembly scopes-enabled logging
+
+:::moniker-end
+
+:::moniker range="< aspnetcore-8.0"
+
+* Snippet sample apps provide the code examples that appear in articles. These apps compile but aren't necessarily runnable apps. These apps are useful for merely obtaining example code that appears in articles.
 * Samples apps to accompany Blazor articles compile and run for the following scenarios:
   * Blazor Server with EF Core
   * Blazor Server and Blazor WebAssembly with SignalR
   * Blazor WebAssembly scopes-enabled logging
 
-> [!NOTE]
-> Not all of the preceding sample apps are available for all releases of ASP.NET Core.
+:::moniker-end
 
 For more information, see the [Blazor samples GitHub repository README.md file](https://github.com/dotnet/blazor-samples).
 

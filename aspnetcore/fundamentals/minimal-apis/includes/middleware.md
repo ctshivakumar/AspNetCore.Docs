@@ -1,3 +1,5 @@
+:::moniker range="= aspnetcore-7.0"
+
 `WebApplication` automatically adds the following middleware depending on certain conditions:
 * [`UseDeveloperExceptionPage`](/dotnet/api/microsoft.aspnetcore.diagnostics.developerexceptionpagemiddleware) is added first when the [`HostingEnvironment`](xref:fundamentals/environments) is `"Development"`.
 * [`UseRouting`](/dotnet/api/microsoft.aspnetcore.builder.endpointroutingapplicationbuilderextensions.userouting) is added second if user code didn't already call `UseRouting` and if there are endpoints configured, for example `app.MapGet`.
@@ -74,3 +76,5 @@ app.Run(context =>
 ```
 
 Terminal middleware is middleware that runs if no endpoint handles the request.
+
+:::moniker-end

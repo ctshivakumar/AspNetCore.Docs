@@ -1,7 +1,7 @@
 ---
 title: ASP.NET Core Blazor data binding
 author: guardrex
-description: Learn about data binding features for Razor components and Document Object Model (DOM) elements in Blazor apps.
+description: Learn about data binding features for Razor components and DOM elements in Blazor apps.
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
@@ -12,7 +12,7 @@ uid: blazor/components/data-binding
 
 [!INCLUDE[](~/includes/not-latest-version.md)]
 
-This article explains data binding features for Razor components and Document Object Model (DOM) elements in Blazor apps.
+This article explains data binding features for Razor components and DOM elements in Blazor apps.
 
 Razor components provide data binding features with the [`@bind`](xref:mvc/views/razor#bind) Razor directive attribute with a field, property, or Razor expression value.
 
@@ -23,7 +23,7 @@ The following example binds:
 
 When an `<input>` element loses focus, its bound field or property is updated.
 
-`Pages/Bind.razor`:
+`Bind.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -53,7 +53,7 @@ The text box is updated in the UI only when the component is rendered, not in re
 
 As a demonstration of how data binding composes in HTML, the following example binds the `InputValue` property to the second `<input>` element's `value` and `onchange` attributes ([`change`](https://developer.mozilla.org/docs/Web/API/HTMLElement/change_event)). *The second `<input>` element in the following example is a concept demonstration and isn't meant to suggest how you should bind data in Razor components.*
 
-`Pages/BindTheory.razor`:
+`BindTheory.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -81,7 +81,7 @@ As a demonstration of how data binding composes in HTML, the following example b
 
 When the `BindTheory` component is rendered, the `value` of the HTML demonstration `<input>` element comes from the `InputValue` property. When the user enters a value in the text box and changes element focus, the `onchange` event is fired and the `InputValue` property is set to the changed value. In reality, code execution is more complex because [`@bind`](xref:mvc/views/razor#bind) handles cases where type conversions are performed. In general, [`@bind`](xref:mvc/views/razor#bind) associates the current value of an expression with the `value` attribute of the `<input>` and handles changes using the registered handler.
 
-Bind a property or field on other [Document Object Model (DOM)](https://developer.mozilla.org/docs/Web/API/Document_Object_Model/Introduction) events by including an `@bind:event="{EVENT}"` attribute with a DOM event for the `{EVENT}` placeholder. The following example binds the `InputValue` property to the `<input>` element's value when the element's `oninput` event ([`input`](https://developer.mozilla.org/docs/Web/API/HTMLElement/input_event)) is triggered. Unlike the `onchange` event ([`change`](https://developer.mozilla.org/docs/Web/API/HTMLElement/change_event)), which fires when the element loses focus, `oninput` ([`input`](https://developer.mozilla.org/docs/Web/API/HTMLElement/input_event)) fires when the value of the text box changes.
+Bind a property or field on other DOM events by including an `@bind:event="{EVENT}"` attribute with a DOM event for the `{EVENT}` placeholder. The following example binds the `InputValue` property to the `<input>` element's value when the element's `oninput` event ([`input`](https://developer.mozilla.org/docs/Web/API/HTMLElement/input_event)) is triggered. Unlike the `onchange` event ([`change`](https://developer.mozilla.org/docs/Web/API/HTMLElement/change_event)), which fires when the element loses focus, `oninput` ([`input`](https://developer.mozilla.org/docs/Web/API/HTMLElement/input_event)) fires when the value of the text box changes.
 
 `Page/BindEvent.razor`:
 
@@ -148,7 +148,7 @@ In the following example:
 
 Additional examples
 
-`Pages/BindAfter.razor`:
+`BindAfter.razor`:
 
 ```razor
 @page "/bind-after"
@@ -193,7 +193,7 @@ Using an event callback parameter with `@bind:set` (`[Parameter] public EventCal
 
 Examples
 
-`Pages/BindGetSet.razor`:
+`BindGetSet.razor`:
 
 ```razor
 @page "/bind-get-set"
@@ -267,7 +267,7 @@ Two-way data binding isn't possible to implement with an event handler. Use `@bi
 
 The `OnInput` event handler updates the value of `inputValue` to `Long!` after a fourth character is provided. However, the user can continue adding characters to the element value in the UI. The value of `inputValue` isn't bound back to the element's value with each keystroke. The preceding example is only capable of one-way data binding.
 
-The reason for this behavior is that Blazor isn't aware that your code intends to modify the value of `inputValue` in the event handler. Blazor doesn't try to force [Document Object Model (DOM)](https://developer.mozilla.org/docs/Web/API/Document_Object_Model/Introduction) element values and .NET variable values to match unless they're bound with `@bind` syntax. In earlier versions of Blazor, two-way data binding is implemented by [binding the element to a property and controlling the property's value with its setter](#binding-to-a-property-with-c-get-and-set-accessors). In ASP.NET Core 7.0 or later, `@bind:get`/`@bind:set` modifier syntax is used to implement two-way data binding, as the next example demonstrates.
+The reason for this behavior is that Blazor isn't aware that your code intends to modify the value of `inputValue` in the event handler. Blazor doesn't try to force DOM element values and .NET variable values to match unless they're bound with `@bind` syntax. In earlier versions of Blazor, two-way data binding is implemented by [binding the element to a property and controlling the property's value with its setter](#binding-to-a-property-with-c-get-and-set-accessors). In ASP.NET Core 7.0 or later, `@bind:get`/`@bind:set` modifier syntax is used to implement two-way data binding, as the next example demonstrates.
 
 <span aria-hidden="true">✔️</span> Consider the following ***correct approach*** using `@bind:get`/`@bind:set` for two-way data binding:
 
@@ -300,7 +300,7 @@ Using `@bind:get`/`@bind:set` modifiers both controls the underlying value of `i
 
 [C# `get` and `set` accessors](/dotnet/csharp/programming-guide/classes-and-structs/using-properties) can be used to create custom binding format behavior, as the following `DecimalBinding` component demonstrates. The component binds a positive or negative decimal with up to three decimal places to an `<input>` element by way of a `string` property (`DecimalValue`).
 
-`Pages/DecimalBinding.razor`:
+`DecimalBinding.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -346,7 +346,7 @@ Using `@bind:get`/`@bind:set` modifiers both controls the underlying value of `i
 
 Binding supports [`multiple`](https://developer.mozilla.org/docs/Web/HTML/Attributes/multiple) option selection with `<select>` elements. The [`@onchange`](xref:mvc/views/razor#onevent) event provides an array of the selected elements via [event arguments (`ChangeEventArgs`)](xref:blazor/components/event-handling#event-arguments). The value must be bound to an array type.
 
-`Pages/BindMultipleInput.razor`:
+`BindMultipleInput.razor`:
 
 ```razor
 @page "/bind-multiple-input"
@@ -425,7 +425,7 @@ When a user provides an unparsable value to a databound element, the unparsable 
 
 Consider the following component, where an `<input>` element is bound to an `int` type with an initial value of `123`.
 
-`Pages/UnparsableValues.razor`:
+`UnparsableValues.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -465,7 +465,7 @@ For the `oninput` event (`@bind:event="oninput"`), a value reversion occurs afte
 
 Data binding works with a single <xref:System.DateTime> format string using `@bind:format="{FORMAT STRING}"`, where the `{FORMAT STRING}` placeholder is the format string. Other format expressions, such as currency or number formats, aren't available at this time but might be added in a future release.
 
-`Pages/DateBinding.razor`:
+`DateBinding.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -524,7 +524,7 @@ The following `ChildBind` component has a `Year` component parameter and an <xre
 
 <xref:Microsoft.AspNetCore.Components.EventCallback.InvokeAsync%2A?displayProperty=nameWithType> invokes the delegate associated with the binding with the provided argument and dispatches an event notification for the changed property.
 
-`Shared/ChildBind.razor`:
+`ChildBind.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -554,7 +554,7 @@ For more information on events and <xref:Microsoft.AspNetCore.Components.EventCa
 
 In the following `Parent1` component, the `year` field is bound to the `Year` parameter of the child component. The `Year` parameter is bindable because it has a companion `YearChanged` event that matches the type of the `Year` parameter.
 
-`Pages/Parent1.razor`:
+`Parent1.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -611,7 +611,7 @@ In a more sophisticated and real-world example, the following `PasswordEntry` co
 * Exposes changes of a `Password` property to a parent component with an [`EventCallback`](xref:blazor/components/event-handling#eventcallback) that passes in the current value of the child's `password` field as its argument.
 * Uses the `onclick` event to trigger the `ToggleShowPassword` method. For more information, see <xref:blazor/components/event-handling>.
 
-`Shared/PasswordEntry.razor`:
+`PasswordEntry.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -639,7 +639,7 @@ In a more sophisticated and real-world example, the following `PasswordEntry` co
 
 The `PasswordEntry` component is used in another component, such as the following `PasswordBinding` component example.
 
-`Pages/PasswordBinding.razor`:
+`PasswordBinding.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -672,7 +672,7 @@ When the `PasswordBinding` component is initially rendered, the `password` value
 
 Perform checks or trap errors in the handler. The following revised `PasswordEntry` component provides immediate feedback to the user if a space is used in the password's value.
 
-`Shared/PasswordEntry.razor`:
+`PasswordEntry.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -713,7 +713,7 @@ You can bind parameters through any number of nested components, but you must re
 
 A common and recommended approach is to only store the underlying data in the parent component to avoid any confusion about what state must be updated, as shown in the following example.
 
-`Pages/Parent2.razor`:
+`Parent2.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -748,7 +748,7 @@ In the following `NestedChild` component, the `NestedGrandchild` component:
 
 :::moniker-end
 
-`Shared/NestedChild.razor`:
+`NestedChild.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -781,7 +781,7 @@ In the following `NestedChild` component, the `NestedGrandchild` component:
 
 :::moniker-end
 
-`Shared/NestedGrandchild.razor`:
+`NestedGrandchild.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 

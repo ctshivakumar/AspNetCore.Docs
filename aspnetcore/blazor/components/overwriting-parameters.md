@@ -33,7 +33,7 @@ Consider the following `Expander` component that:
 
 After the following `Expander` component demonstrates an overwritten parameter, a modified `Expander` component is shown to demonstrate the correct approach for this scenario. The following examples can be placed in a local sample app to experience the behaviors described.
 
-`Shared/Expander.razor`:
+`Expander.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -64,7 +64,7 @@ The `Expander` component is added to the following `ExpanderExample` parent comp
 * Calling <xref:Microsoft.AspNetCore.Components.ComponentBase.StateHasChanged%2A> in developer code notifies a component that its state has changed and typically triggers component rerendering to update the UI. <xref:Microsoft.AspNetCore.Components.ComponentBase.StateHasChanged%2A> is covered in more detail later in <xref:blazor/components/lifecycle> and <xref:blazor/components/rendering>.
 * The button's `@onclick` directive attribute attaches an event handler to the button's `onclick` event. Event handling is covered in more detail later in <xref:blazor/components/event-handling>.
 
-`Pages/ExpanderExample.razor`:
+`ExpanderExample.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -113,7 +113,7 @@ The following revised `Expander` component:
 > [!NOTE]
 > The advice in this section extends to similar logic in component parameter `set` accessors, which can result in similar undesirable side effects.
 
-`Shared/Expander.razor`:
+`Expander.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -139,16 +139,10 @@ The following revised `Expander` component:
 
 :::moniker-end
 
-:::moniker range=">= aspnetcore-6.0"
+For more information on parent-child binding, see the following resources:
 
-For two-way parent-child binding examples, see <xref:blazor/components/data-binding#binding-with-component-parameters>. For additional information, see [Blazor Two Way Binding Error (dotnet/aspnetcore #24599)](https://github.com/dotnet/aspnetcore/issues/24599).
-
-:::moniker-end
-
-:::moniker range="< aspnetcore-6.0"
-
-For additional information, see [Blazor Two Way Binding Error (dotnet/aspnetcore #24599)](https://github.com/dotnet/aspnetcore/issues/24599).
-
-:::moniker-end
+* [Binding with component parameters](xref:blazor/components/data-binding#binding-with-component-parameters)
+* [Bind across more than two components](xref:blazor/components/data-binding#bind-across-more-than-two-components)
+* [Blazor Two Way Binding Error (dotnet/aspnetcore #24599)](https://github.com/dotnet/aspnetcore/issues/24599)
 
 For more information on change detection, including information on the exact types that Blazor checks, see <xref:blazor/components/rendering#rendering-conventions-for-componentbase>.

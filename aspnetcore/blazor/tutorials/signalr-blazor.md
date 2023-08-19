@@ -13,16 +13,20 @@ zone_pivot_groups: blazor-hosting-models
 
 [!INCLUDE[](~/includes/not-latest-version.md)]
 
-This tutorial provides a basic working experience for building a real-time app using SignalR with Blazor. For detailed Blazor guidance, see the [Blazor reference documentation](xref:blazor/index).
+This tutorial provides a basic working experience for building a real-time app using SignalR with Blazor. This article is useful for developers who are already familiar with SignalR and are seeking to understand how to use SignalR in a Blazor app. For detailed guidance on the SignalR and Blazor frameworks, see the following reference documentation sets and the API documentation:
+
+* <xref:signalr/introduction>
+* <xref:blazor/index>
+* [.NET API browser](/dotnet/api/)
 
 Learn how to:
 
 > [!div class="checklist"]
-> * Create a Blazor project
+> * Create a Blazor app
 > * Add the SignalR client library
 > * Add a SignalR hub
 > * Add SignalR services and an endpoint for the SignalR hub
-> * Add Razor component code for chat
+> * Add a Razor component code for chat
 
 At the end of this tutorial, you'll have a working chat app.
 
@@ -752,23 +756,23 @@ Quotes: *Star Trek VI: The Undiscovered Country* &copy;1991 [Paramount](https://
 In this tutorial, you learned how to:
 
 > [!div class="checklist"]
-> * Create a Blazor project
+> * Create a Blazor app
 > * Add the SignalR client library
 > * Add a SignalR hub
 > * Add SignalR services and an endpoint for the SignalR hub
-> * Add Razor component code for chat
+> * Add a Razor component code for chat
 
-To learn more about building Blazor apps, see the Blazor documentation:
+For detailed guidance on the SignalR and Blazor frameworks, see the following reference documentation sets:
 
 > [!div class="nextstepaction"]
+> <xref:signalr/introduction>
 > <xref:blazor/index>
-> [Bearer token authentication with Identity Server, WebSockets, and Server-Sent Events](xref:signalr/authn-and-authz#bearer-token-authentication)
 
 ## Additional resources
 
+* [Bearer token authentication with Identity Server, WebSockets, and Server-Sent Events](xref:signalr/authn-and-authz#bearer-token-authentication)
 * [Secure a SignalR hub in hosted Blazor WebAssembly apps](xref:blazor/security/webassembly/index#secure-a-signalr-hub)
-* <xref:signalr/introduction>
-* [SignalR cross-origin negotiation for authentication](xref:blazor/fundamentals/signalr#signalr-cross-origin-negotiation-for-authentication-blazor-webassembly)
+* [SignalR cross-origin negotiation for authentication](xref:blazor/fundamentals/signalr#client-side-signalr-cross-origin-negotiation-for-authentication)
 * [SignalR configuration](xref:blazor/host-and-deploy/server#signalr-configuration)
 * <xref:blazor/debug>
 * <xref:blazor/security/server/threat-mitigation>

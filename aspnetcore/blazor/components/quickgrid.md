@@ -14,6 +14,20 @@ uid: blazor/components/quickgrid
 
 The `QuickGrid` component is a Razor component for quickly and efficiently displaying data in tabular form. `QuickGrid` provides a simple and convenient data grid component for common grid rendering scenarios and serves as a reference architecture and performance baseline for building data grid components. `QuickGrid` is highly optimized and uses advanced techniques to achieve optimal rendering performance.
 
+## Package
+
+<!-- UPDATE 8.0 Remove the prerelease content from the 8.0 content ONLY (Lines 21 and 83). The package will always be prerelease for 7.0 apps. -->
+
+Add a ***prerelease*** package reference for the [`Microsoft.AspNetCore.Components.QuickGrid`](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.QuickGrid) package. If using the .NET CLI to add the package reference, include the `--prerelease` option when you execute the [`dotnet add package` command](/dotnet/core/tools/dotnet-add-package).
+
+[!INCLUDE[](~/includes/package-reference.md)]
+
+## Sample app
+
+For various `QuickGrid` demonstrations, see the [**QuickGrid for Blazor** sample app](https://aspnet.github.io/quickgridsamples/). The demo site is hosted on GitHub Pages. The site loads fast thanks to static prerendering using the community-maintained [`BlazorWasmPrerendering.Build` GitHub project](https://github.com/jsakamoto/BlazorWasmPreRendering.Build).
+
+## `QuickGrid` implementation
+
 To implement a `QuickGrid` component:
 
 * Specify tags for the `QuickGrid` component in Razor markup (`<QuickGrid>...</QuickGrid>`).
@@ -36,10 +50,12 @@ To implement a `QuickGrid` component:
 
 For example, add the following component to render a grid.
 
-`Pages/QuickGridExample.razor`:
+`QuickGridExample.razor`:
 
 ```razor
 @page "/quickgrid-example"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@attribute [RenderModeServer]
 
 <QuickGrid Items="@people">
     <PropertyColumn Property="@(p => p.PersonId)" Sortable="true" />
@@ -62,17 +78,19 @@ For example, add the following component to render a grid.
 }
 ```
 
+The preceding example specifies the Server render mode (`@attribute [RenderModeServer]`) to enable server-side rendering (SSR), which enables the `QuickGrid`'s interactive features. In this case, the only interactive feature is sortable columns.
+
 For an example that uses an <xref:System.Linq.IQueryable> with Entity Framework Core as the queryable data source, see the [`SampleQuickGridComponent` component in the ASP.NET Core Basic Test App (`dotnet/aspnetcore` GitHub repository)](https://github.com/dotnet/aspnetcore/blob/main/src/Components/test/testassets/BasicTestApp/QuickGridTest/SampleQuickGridComponent.razor).
 
 [!INCLUDE[](~/includes/aspnetcore-repo-ref-source-links.md)]
 
 To use Entity Framework (EF) Core as the data source:
 
-* Add a package reference to the app for the [`Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter`](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter) package.
+* Add a ***prerelease*** package reference for the [`Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter`](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter) package. If using the .NET CLI to add the package reference, include the `--prerelease` option when you execute the [`dotnet add package` command](/dotnet/core/tools/dotnet-add-package).
 
   [!INCLUDE[](~/includes/package-reference.md)]
 
-* Call `AddQuickGridEntityFrameworkAdapter` on the service collection in `Program.cs` to register an EF-aware implementation of `IAsyncQueryExecutor`:
+* Call `AddQuickGridEntityFrameworkAdapter` on the service collection in the `Program` file to register an EF-aware implementation of `IAsyncQueryExecutor`:
 
   ```csharp
   builder.Services.AddQuickGridEntityFrameworkAdapter();
@@ -86,13 +104,16 @@ The `QuickGrid` component is an experimental Razor component for quickly and eff
 
 To get started with `QuickGrid`:
 
-Add package reference for [`Microsoft.AspNetCore.Components.QuickGrid`](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.QuickGrid). If using the .NET CLI to add the package reference, include the `--prerelease` option when you execute the [`dotnet add package` command](/dotnet/core/tools/dotnet-add-package).
+Add a ***prerelease*** package reference for the [`Microsoft.AspNetCore.Components.QuickGrid`](https://www.nuget.org/packages/Microsoft.AspNetCore.Components.QuickGrid) package. If using the .NET CLI to add the package reference, include the `--prerelease` option when you execute the [`dotnet add package` command](/dotnet/core/tools/dotnet-add-package).
 
 [!INCLUDE[](~/includes/package-reference.md)]
 
+> [!NOTE]
+> Because the `Microsoft.AspNetCore.Components.QuickGrid` package is an experimental package for .NET 7, the package remains in *prerelease* status forever for .NET 7 Blazor apps. The package reached production status for .NET 8. For more information, see an 8.0 or later version of this article.
+
 Add the following component to render a grid.
 
-`Pages/QuickGridExample.razor`:
+`QuickGridExample.razor`:
 
 ```razor
 @page "/quickgrid-example"
@@ -124,12 +145,3 @@ Add the following component to render a grid.
 Access the component in a browser at the relative path `/quickgrid-example`.
 
 There aren't current plans to extend `QuickGrid` with features that full-blown commercial grids tend to offer, for example, hierarchical rows, drag-to-reorder columns, or Excel-like range selections. If you require advanced features that you don't wish to develop on your own, continue using third-party grids.
-
-:::moniker range="< aspnetcore-8.0"
-
-For various `QuickGrid` demonstrations, see the [**QuickGrid for Blazor** app](https://aspnet.github.io/quickgridsamples/). The demo site is built using Blazor WebAssembly and is hosted on GitHub Pages. The site loads fast thanks to static prerendering using the community-maintained [`BlazorWasmPrerendering.Build` GitHub project](https://github.com/jsakamoto/BlazorWasmPreRendering.Build).
-
-> [!WARNING]
-> The `QuickGrid` component is in preview for ASP.NET Core 7.x. You're welcome to use it in production if it meets your needs, but it isn't officially supported until ASP.NET Core 8.0 or later.
-
-:::moniker-end

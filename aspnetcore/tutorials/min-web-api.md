@@ -3,8 +3,8 @@ title: "Tutorial: Create a minimal API with ASP.NET Core"
 author: wadepickett
 description: Learn how to build a minimal API with ASP.NET Core.
 ms.author: wpickett
-ms.date: 5/15/2023
-ms.custom: engagement-fy23
+ms.date: 08/11/2023
+ms.custom: engagement-fy24
 monikerRange: '>= aspnetcore-6.0'
 uid: tutorials/min-web-api
 ---
@@ -193,7 +193,7 @@ In the project folder, create a file named `Todo.cs` with the following code:
 
 :::code language="csharp" source="~/tutorials/min-web-api/samples/7.x/todoGroup/Todo.cs":::
 
-The preceding code creates the model for this app. A *model* is a class that represents data that the app manages. 
+The preceding code creates the model for this app. A *model* is a class that represents data that the app manages.
 
 Create a file named `TodoDb.cs` with the following code:
 
@@ -226,9 +226,9 @@ This tutorial uses Postman to test the API.
 * Install [Postman](https://www.getpostman.com/downloads/)
 * Start the web app.
 * Start Postman.
-* Disable **SSL certificate verification**
-  * For Postman for Windows, Select **File** > **Settings** (**General** tab), disable **SSL certificate verification**.
-  * For Postman for macOS, Select **Postman** > **Preferences** (**General** tab), disable **SSL certificate verification**.
+* Select **Workspaces** > **Create Workspace** and then select **Next**.
+* Name the workspace *TodoApi* and select **Create**.
+* Select the settings gear icon > **Settings** (**General** tab) and disable **SSL certificate verification**.
     > [!WARNING]
     > Re-enable SSL certificate verification after testing the sample app.
 
@@ -240,7 +240,7 @@ For macOS, select the .NET 7 version of this tutorial.
 
 ---
 
-### Test posting data
+## Test posting data
 
 The following code in `Program.cs` creates an HTTP POST endpoint `/todoitems` that adds data to the in-memory database:
 
@@ -300,9 +300,9 @@ Use the POST endpoint to add data to the app.
 
 * Run the app.
 
-* Select the green **run** button to the left of the line that begins with `Post`.
+* Select the **Send request** link that is above the `POST` request line.
 
-  ![.http file window with run button highlighted.](~/tutorials/min-web-api/_static/http-file-run-button.png)
+  ![.http file window with run link highlighted.](~/tutorials/min-web-api/_static/http-file-run-button.png)
 
   The POST request is sent to the app and the response is displayed in the **Response** pane.
 
@@ -310,7 +310,7 @@ Use the POST endpoint to add data to the app.
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-* Create a new HTTP request.
+* In Postman, create a new HTTP request by selecting **New** > **HTTP**.
 * Set the HTTP method to `POST`.
 * Set the URI to `https://localhost:<port>/todoitems`. For example: `https://localhost:5001/todoitems`
 * Select the **Body** tab.
@@ -363,7 +363,7 @@ Test the app by calling the `GET` endpoints from a browser or by using **Endpoin
   ###
   ```
 
-* Select the green **run** button to the left of the new `GET` request line.
+* Select the **Send request** link that is above the new `GET` request line.
 
   The GET request is sent to the app and the response is displayed in the **Response** pane.
 
@@ -390,7 +390,7 @@ Test the app by calling the `GET` endpoints from a browser or by using **Endpoin
 
 * Replace `{id}` with `1`.
 
-* Select the green **run** button to the left of the new GET request line.
+* Select the **Send request** link that is above the new GET request line.
 
   The GET request is sent to the app and the response is displayed in the **Response** pane.
 
@@ -496,7 +496,7 @@ Update the to-do item that has Id = 1 and set its name to `"feed fish"`.
 
   The preceding code adds a Content-Type header and a JSON request body.
 
-* Select the green **run** button to the left of the PUT request line.
+* Select the **Send request** link that is above the new GET request line.
 
   The PUT request is sent to the app and the response is displayed in the **Response** pane. The response body is empty, and the status code is 204.
   
@@ -544,9 +544,9 @@ The sample app implements a single DELETE endpoint using `MapDelete`:
   ###
   ```
 
-* Select the **run** button for the DELETE request.
+* Select the **Send request** link for the DELETE request.
 
-  The DELETE request is sent to the app and the response is displayed in the **Response** pane. The status code is 200 and the response body contains the deleted `Todo` item.
+  The DELETE request is sent to the app and the response is displayed in the **Response** pane. The response body is empty, and the status code is 204.
   
 # [Visual Studio Code](#tab/visual-studio-code)
 

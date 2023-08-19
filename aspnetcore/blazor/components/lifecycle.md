@@ -40,13 +40,13 @@ A parent component renders before its children components because rendering is w
 
 ![Component lifecycle events of a Razor component in Blazor](~/blazor/components/lifecycle/_static/lifecycle1.png)
 
-Document Object Model (DOM) event processing:
+DOM event processing:
 
 1. The event handler is run.
 1. If an incomplete <xref:System.Threading.Tasks.Task> is returned, the <xref:System.Threading.Tasks.Task> is awaited and then the component is rerendered.
 1. Render for all synchronous work and complete <xref:System.Threading.Tasks.Task>s.
 
-![Document Object Model (DOM) event processing](~/blazor/components/lifecycle/_static/lifecycle2.png)
+![DOM event processing](~/blazor/components/lifecycle/_static/lifecycle2.png)
 
 The `Render` lifecycle:
 
@@ -77,7 +77,7 @@ In the following example, <xref:Microsoft.AspNetCore.Components.ParameterView.Tr
 
 Although [route parameter matching is case insensitive](xref:blazor/fundamentals/routing#route-parameters), <xref:Microsoft.AspNetCore.Components.ParameterView.TryGetValue%2A> only matches case-sensitive parameter names in the route template. The following example requires the use of `/{Param?}` in the route template in order to get the value with <xref:Microsoft.AspNetCore.Components.ParameterView.TryGetValue%2A>, not `/{param?}`. If `/{param?}` is used in this scenario, <xref:Microsoft.AspNetCore.Components.ParameterView.TryGetValue%2A> returns `false` and `message` isn't set to either `message` string.
 
-`Pages/SetParamsAsync.razor`:
+`SetParamsAsync.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -111,7 +111,7 @@ If synchronous parent component initialization is used, the parent initializatio
 
 For a synchronous operation, override <xref:Microsoft.AspNetCore.Components.ComponentBase.OnInitialized%2A>:
 
-`Pages/OnInit.razor`:
+`OnInit.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -151,11 +151,33 @@ Blazor apps that prerender their content on the server call <xref:Microsoft.AspN
 * Once when the component is initially rendered statically as part of the page.
 * A second time when the browser renders the component.
 
-To prevent developer code in <xref:Microsoft.AspNetCore.Components.ComponentBase.OnInitializedAsync%2A> from running twice when prerendering, see the [Stateful reconnection after prerendering](#stateful-reconnection-after-prerendering) section. Although the content in the section focuses on Blazor Server and stateful SignalR *reconnection*, the scenario for prerendering in hosted Blazor WebAssembly apps (<xref:Microsoft.AspNetCore.Mvc.Rendering.RenderMode.WebAssemblyPrerendered>) involves similar conditions and approaches to prevent executing developer code twice. To preserve state during the execution of initialization code while prerendering, see <xref:blazor/components/prerendering-and-integration#persist-prerendered-state>.
+:::moniker range=">= aspnetcore-8.0"
+
+<!-- UPDATE 8.0 The Prerendering article cross-link might be updated,
+     the API for 'WebAssemblyPrerendered' might be different,
+     and cross-link 'client-side rendered (CSR)'. -->
+
+To prevent developer code in <xref:Microsoft.AspNetCore.Components.ComponentBase.OnInitializedAsync%2A> from running twice when prerendering, see the [Stateful reconnection after prerendering](#stateful-reconnection-after-prerendering) section. Although the content in the section focuses on Blazor Web Apps and stateful SignalR *reconnection*, the scenario for prerendering client-side rendered (CSR) WebAssembly components or client-side components in hosted Blazor WebAssembly solutions (<xref:Microsoft.AspNetCore.Mvc.Rendering.RenderMode.WebAssemblyPrerendered>) involves similar conditions and approaches to prevent executing developer code twice. To preserve state during the execution of initialization code while prerendering, see <xref:blazor/components/prerendering-and-integration#persist-prerendered-state>.
+
+:::moniker-end
+
+:::moniker range="< aspnetcore-8.0"
+
+To prevent developer code in <xref:Microsoft.AspNetCore.Components.ComponentBase.OnInitializedAsync%2A> from running twice when prerendering, see the [Stateful reconnection after prerendering](#stateful-reconnection-after-prerendering) section. Although the content in the section focuses on Blazor Server and stateful SignalR *reconnection*, the scenario for prerendering in hosted Blazor WebAssembly solutions (<xref:Microsoft.AspNetCore.Mvc.Rendering.RenderMode.WebAssemblyPrerendered>) involves similar conditions and approaches to prevent executing developer code twice. To preserve state during the execution of initialization code while prerendering, see <xref:blazor/components/prerendering-and-integration#persist-prerendered-state>.
+
+:::moniker-end
 
 While a Blazor app is prerendering, certain actions, such as calling into JavaScript (JS interop), aren't possible. Components may need to render differently when prerendered. For more information, see the [Prerendering with JavaScript interop](#prerendering-with-javascript-interop) section.
 
 If event handlers are provided in developer code, unhook them on disposal. For more information, see the [Component disposal with `IDisposable` `IAsyncDisposable`](#component-disposal-with-idisposable-and-iasyncdisposable) section.
+
+::: moniker range=">= aspnetcore-8.0"
+
+<!-- UPDATE 8.0 Cross-link 'server-side rendering (SSR)' -->
+
+Use *streaming rendering* with server-side rendering (SSR) to improve the user experience for server-side components that perform long-running asynchronous tasks in <xref:Microsoft.AspNetCore.Components.ComponentBase.OnInitializedAsync%2A> to fully render. For more information, see <xref:blazor/components/rendering#streaming-rendering>.
+
+:::moniker-end
 
 ## After parameters are set (`OnParametersSet{Async}`)
 
@@ -182,7 +204,7 @@ For the following example component, navigate to the component's page at a URL:
 
 :::moniker-end
 
-`Pages/OnParamsSet.razor`:
+`OnParamsSet.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -223,14 +245,34 @@ For more information on route parameters and constraints, see <xref:blazor/funda
 
 ## After component render (`OnAfterRender{Async}`)
 
+:::moniker range=">= aspnetcore-8.0"
+
+<!-- UPDATE 8.0 Cross-link server-side rendering (SSR) -->
+
+<xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRender%2A> and <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRenderAsync%2A> are invoked after a component has rendered interactively and the UI has finished updating (for example, after elements are added to the browser DOM). Element and component references are populated at this point. Use this stage to perform additional initialization steps with the rendered content, such as JS interop calls that interact with the rendered DOM elements.
+
+These methods aren't invoked during prerendering or server-side rendering (SSR) because those processes aren't attached to a live browser DOM and are already complete before the DOM is updated.
+
+For <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRenderAsync%2A>, the component doesn't automatically rerender after the completion of any returned `Task` to avoid an infinite render loop.
+
+:::moniker-end
+
+:::moniker range="< aspnetcore-8.0"
+
 <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRender%2A> and <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRenderAsync%2A> are called after a component has finished rendering. Element and component references are populated at this point. Use this stage to perform additional initialization steps with the rendered content, such as JS interop calls that interact with the rendered DOM elements.
+
+These methods aren't invoked during prerendering because prerendering isn't attached to a live browser DOM and is already complete before the DOM is updated.
+
+For <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRenderAsync%2A>, the component doesn't automatically rerender after the completion of any returned `Task` to avoid an infinite render loop.
+
+:::moniker-end
 
 The `firstRender` parameter for <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRender%2A> and <xref:Microsoft.AspNetCore.Components.ComponentBase.OnAfterRenderAsync%2A>:
 
 * Is set to `true` the first time that the component instance is rendered.
 * Can be used to ensure that initialization work is only performed once.
 
-`Pages/AfterRender.razor`:
+`AfterRender.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -289,33 +331,34 @@ For more information on component rendering and when to call <xref:Microsoft.Asp
 
 Asynchronous actions performed in lifecycle events might not have completed before the component is rendered. Objects might be `null` or incompletely populated with data while the lifecycle method is executing. Provide rendering logic to confirm that objects are initialized. Render placeholder UI elements (for example, a loading message) while objects are `null`.
 
-In the `FetchData` component of the Blazor templates, <xref:Microsoft.AspNetCore.Components.ComponentBase.OnInitializedAsync%2A> is overridden to asynchronously receive forecast data (`forecasts`). When `forecasts` is `null`, a loading message is displayed to the user. After the `Task` returned by <xref:Microsoft.AspNetCore.Components.ComponentBase.OnInitializedAsync%2A> completes, the component is rerendered with the updated state.
+In the following component, <xref:Microsoft.AspNetCore.Components.ComponentBase.OnInitializedAsync%2A> is overridden to asynchronously provide movie rating data (`movies`). When `movies` is `null`, a loading message is displayed to the user. After the `Task` returned by <xref:Microsoft.AspNetCore.Components.ComponentBase.OnInitializedAsync%2A> completes, the component is rerendered with the updated state.
 
-`Pages/FetchData.razor` in the Blazor Server template:
+```razor
+<h1>Sci-Fi Movie Ratings</h1>
 
-:::moniker range=">= aspnetcore-7.0"
+@if (movies == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ul>
+        @foreach (var movie in movies)
+        {
+            <li>@movie.Title &mdash; @movie.Rating</li>
+        }
+    </ul>
+}
 
-:::code language="razor" source="~/../blazor-samples/7.0/BlazorSample_Server/Pages/lifecycle/FetchData.razor" highlight="9,21,25":::
+@code {
+    private Movies[]? movies;
 
-:::moniker-end
-
-:::moniker range=">= aspnetcore-6.0 < aspnetcore-7.0"
-
-:::code language="razor" source="~/../blazor-samples/6.0/BlazorSample_Server/Pages/lifecycle/FetchData.razor" highlight="9,21,25":::
-
-:::moniker-end
-
-:::moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
-
-:::code language="razor" source="~/../blazor-samples/5.0/BlazorSample_Server/Pages/lifecycle/FetchData.razor" highlight="9,21,25":::
-
-:::moniker-end
-
-:::moniker range="< aspnetcore-5.0"
-
-:::code language="razor" source="~/../blazor-samples/3.1/BlazorSample_Server/Pages/lifecycle/FetchData.razor" highlight="9,21,25":::
-
-:::moniker-end
+    protected override async Task OnInitializedAsync()
+    {
+        movies = await GetMovieRatings(DateTime.Now);
+    }
+}
+```
 
 ## Handle errors
 
@@ -323,14 +366,14 @@ For information on handling errors during lifecycle method execution, see <xref:
 
 ## Stateful reconnection after prerendering
 
-In a Blazor Server app when <xref:Microsoft.AspNetCore.Mvc.TagHelpers.ComponentTagHelper.RenderMode> is <xref:Microsoft.AspNetCore.Mvc.Rendering.RenderMode.ServerPrerendered>, the component is initially rendered statically as part of the page. Once the browser establishes a SignalR connection back to the server, the component is rendered *again* and interactive. If the [`OnInitialized{Async}`](#component-initialization-oninitializedasync) lifecycle method for initializing the component is present, the method is executed *twice*:
+When prerendering on the server, a component is initially rendered statically as part of the page. Once the browser establishes a SignalR connection back to the server, the component is rendered *again* and interactive. If the [`OnInitialized{Async}`](#component-initialization-oninitializedasync) lifecycle method for initializing the component is present, the method is executed *twice*:
 
 * When the component is prerendered statically.
 * After the server connection has been established.
 
-This can result in a noticeable change in the data displayed in the UI when the component is finally rendered. To avoid this double-rendering behavior in a Blazor Server app, pass in an identifier to cache the state during prerendering and to retrieve the state after prerendering.
+This can result in a noticeable change in the data displayed in the UI when the component is finally rendered. To avoid this behavior, pass in an identifier to cache the state during prerendering and to retrieve the state after prerendering.
 
-The following code demonstrates an updated `WeatherForecastService` in a template-based Blazor Server app that avoids the double rendering. In the following example, the awaited <xref:System.Threading.Tasks.Task.Delay%2A> (`await Task.Delay(...)`) simulates a short delay before returning data from the `GetForecastAsync` method.
+The following code demonstrates a `WeatherForecastService` that avoids the change in data display due to prerendering. The awaited <xref:System.Threading.Tasks.Task.Delay%2A> (`await Task.Delay(...)`) simulates a short delay before returning data from the `GetForecastAsync` method.
 
 `WeatherForecastService.cs`:
 
@@ -358,9 +401,23 @@ The following code demonstrates an updated `WeatherForecastService` in a templat
 
 :::moniker-end
 
-For more information on the <xref:Microsoft.AspNetCore.Mvc.TagHelpers.ComponentTagHelper.RenderMode>, see <xref:blazor/fundamentals/signalr#render-mode-blazor-server>.
+For more information on the <xref:Microsoft.AspNetCore.Mvc.TagHelpers.ComponentTagHelper.RenderMode>, see <xref:blazor/fundamentals/signalr#server-side-render-mode>.
 
-Although the content in this section focuses on Blazor Server and stateful SignalR *reconnection*, the scenario for prerendering in hosted Blazor WebAssembly apps (<xref:Microsoft.AspNetCore.Mvc.Rendering.RenderMode.WebAssemblyPrerendered>) involves similar conditions and approaches to prevent executing developer code twice. To preserve state during the execution of initialization code while prerendering, see <xref:blazor/components/prerendering-and-integration#persist-prerendered-state>.
+<!-- UPDATE 8.0 The Prerendering article cross-link might be updated,
+     the API for 'WebAssemblyPrerendered' might be changing,
+     and cross-link 'client-side rendered (CSR)'. -->
+
+:::moniker range=">= aspnetcore-8.0"
+
+Although the content in this section focuses on Blazor Web Apps and stateful SignalR *reconnection*, the scenario for prerendering client-side rendered (CSR) WebAssembly components or client-side components in hosted Blazor WebAssembly solutions (<xref:Microsoft.AspNetCore.Mvc.Rendering.RenderMode.WebAssemblyPrerendered>) involves similar conditions and approaches to prevent executing developer code twice. To preserve state during the execution of initialization code while prerendering, see <xref:blazor/components/prerendering-and-integration#persist-prerendered-state>.
+
+:::moniker-end
+
+:::moniker range="< aspnetcore-8.0"
+
+Although the content in this section focuses on Blazor Server and stateful SignalR *reconnection*, the scenario for prerendering in hosted Blazor WebAssembly solutions (<xref:Microsoft.AspNetCore.Mvc.Rendering.RenderMode.WebAssemblyPrerendered>) involves similar conditions and approaches to prevent executing developer code twice. To preserve state during the execution of initialization code while prerendering, see <xref:blazor/components/prerendering-and-integration#persist-prerendered-state>.
+
+:::moniker-end
 
 ## Prerendering with JavaScript interop
 
@@ -386,16 +443,11 @@ JS interop object references are implemented as a map keyed by an identifier on 
 
 At a minimum, always dispose objects created on the .NET side to avoid leaking .NET managed memory.
 
-### Document Object Model (DOM) cleanup tasks during component disposal
+### DOM cleanup tasks during component disposal
 
-Don't execute JS interop code for DOM cleanup tasks during component disposal. Instead, use the [`MutationObserver`](https://developer.mozilla.org/docs/Web/API/MutationObserver) pattern in JavaScript on the client for the following reasons:
+For more information, see <xref:blazor/js-interop/index#dom-cleanup-tasks-during-component-disposal>.
 
-* The component may have been removed from the DOM by the time your cleanup code executes in `Dispose{Async}`.
-* In a Blazor Server app, the Blazor renderer may have been disposed by the framework by the time your cleanup code executes in `Dispose{Async}`.
-
-The [`MutationObserver`](https://developer.mozilla.org/docs/Web/API/MutationObserver) pattern allows you to run a function when an element is removed from the DOM.
-
-For guidance on <xref:Microsoft.JSInterop.JSDisconnectedException> in Blazor Server apps when a circuit is disconnected, see <xref:blazor/js-interop/call-javascript-from-dotnet#javascript-interop-calls-without-a-circuit> or <xref:blazor/js-interop/call-dotnet-from-javascript#javascript-interop-calls-without-a-circuit>. For general JavaScript interop error handling guidance, see the *JavaScript interop* section in <xref:blazor/fundamentals/handle-errors>. <!-- AUTHOR NOTE: The JavaScript interop section isn't linked because the section title changed across versions of the doc. Prior to 6.0, the section appears twice, once for Blazor Server and once for Blazor WebAssembly, each with the hosting model name in the section name. -->
+For guidance on <xref:Microsoft.JSInterop.JSDisconnectedException> when a circuit is disconnected, see <xref:blazor/js-interop/index#javascript-interop-calls-without-a-circuit>. For general JavaScript interop error handling guidance, see the *JavaScript interop* section in <xref:blazor/fundamentals/handle-errors#javascript-interop>.
 
 ### Synchronous `IDisposable`
 
@@ -424,7 +476,7 @@ The following component:
 
 If a single object requires disposal, a lambda can be used to dispose of the object when <xref:System.IDisposable.Dispose%2A> is called. The following example appears in the <xref:blazor/components/rendering#receiving-a-call-from-something-external-to-the-blazor-rendering-and-event-handling-system> article and demonstrates the use of a lambda expression for the disposal of a <xref:System.Timers.Timer>.
 
-`Pages/CounterWithTimerDisposal1.razor`:
+`CounterWithTimerDisposal1.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -455,7 +507,7 @@ If a single object requires disposal, a lambda can be used to dispose of the obj
 
 If the object is created in a lifecycle method, such as [`OnInitialized`/`OnInitializedAsync`](#component-initialization-oninitializedasync), check for `null` before calling `Dispose`.
 
-`Pages/CounterWithTimerDisposal2.razor`:
+`CounterWithTimerDisposal2.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -536,6 +588,8 @@ These are unusual scenarios. For objects that are implemented correctly and beha
 ### Event handlers
 
 Always unsubscribe event handlers from .NET events. The following [Blazor form](xref:blazor/forms-and-input-components) examples show how to unsubscribe an event handler in the `Dispose` method:
+
+<!-- UPDATE 8.0 There's a form here, potentially to receive 8.0 updates -->
 
 * Private field and lambda approach
 
@@ -671,7 +725,7 @@ In the following example:
 * `await Task.Delay(5000, cts.Token);` represents long-running asynchronous background work.
 * `BackgroundResourceMethod` represents a long-running background method that shouldn't start if the `Resource` is disposed before the method is called.
 
-`Pages/BackgroundWork.razor`:
+`BackgroundWork.razor`:
 
 :::moniker range=">= aspnetcore-7.0"
 
@@ -699,4 +753,4 @@ In the following example:
 
 ## Blazor Server reconnection events
 
-The component lifecycle events covered in this article operate separately from [Blazor Server's reconnection event handlers](xref:blazor/fundamentals/signalr#reflect-the-connection-state-in-the-ui-blazor-server). When a Blazor Server app loses its SignalR connection to the client, only UI updates are interrupted. UI updates are resumed when the connection is re-established. For more information on circuit handler events and configuration, see <xref:blazor/fundamentals/signalr>.
+The component lifecycle events covered in this article operate separately from [server-side reconnection event handlers](xref:blazor/fundamentals/signalr#reflect-the-server-side-connection-state-in-the-ui). When the SignalR connection to the client is lost, only UI updates are interrupted. UI updates are resumed when the connection is re-established. For more information on circuit handler events and configuration, see <xref:blazor/fundamentals/signalr>.
